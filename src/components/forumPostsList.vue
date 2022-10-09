@@ -128,10 +128,8 @@ a{
 }
 .list-item:hover{
   cursor: pointer;
-  border-bottom: #f6f6f6 2px solid;
-  border-top: #f6f6f6 2px solid;
-  border-right: #f6f6f6 2px solid;
-  border-left: #f6f6f6 2px solid;
+  background-color: #f6f6f6;
+  border-radius: 6px;
 }
 .list-item>.title{
   font-size: 2rem;

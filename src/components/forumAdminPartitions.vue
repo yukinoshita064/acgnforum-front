@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="admin-title">
+      分区管理
+    </div>
     <div>
       <el-form>
         <el-form-item label="分区名">
@@ -71,11 +74,27 @@ export default {
             }
           })
     },
-    deletePartition(){
-
+    deletePartition(pid){
+      const url_api=getForumApiLink()+'api/partition/?user_token='+Cookies.get('user_token')+"&pid="+pid
+      axios.delete(url_api)
+          .then((res)=>{
+            if (res.data.status<3000){
+              ElMessage({
+                message:"删除成功",
+                type:'success'
+              })
+              this.getPartitionsAll()
+            }
+            else {
+              ElMessage({
+                message:"删除失败",
+                type:'warning'
+              })
+            }
+          })
     },
     postPartition(){
-      if (this.neoPartitionCreate.lengt<2){
+      if (this.neoPartitionCreate.length<2){
         ElMessage({
           message:"太短了",
           type:'warning'
@@ -130,6 +149,7 @@ export default {
     },
   },
   beforeMount() {
+    document.title="分区管理-acgnForum"
     if (Cookies.get('user_token')===undefined){
       ElMessage({
         message:"权限不足",
@@ -144,5 +164,10 @@ export default {
 </script>
 
 <style scoped>
-
+.admin-title{
+  font-size: 2.5rem;
+  text-align: center;
+  font-weight: 600;
+  margin: 0 auto;
+}
 </style>

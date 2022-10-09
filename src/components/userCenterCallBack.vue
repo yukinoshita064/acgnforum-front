@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div style="font-size: 2rem;margin: 0 auto; text-align: center;">
     <div v-if="loading">
-      加载中
+      正在登陆
     </div>
     <div v-else>
       {{swapToken}}
@@ -54,6 +54,7 @@ export default {
     }
   },
   beforeMount() {
+    document.title="登陆中-acgnForum"
     this.postSwapData()
     console.log(this.swapToken)
     console.log(this.username)

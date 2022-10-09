@@ -3,11 +3,18 @@
     <div class="logo">
       <img src="./assets/logo.png" alt="logo" @click="pushToHome">
     </div>
-    <div>
+    <div class="links">
     <div class="publish">
       <router-link to="/post/publish">
         <el-button link type="primary">
           发帖
+        </el-button>
+      </router-link>
+    </div>
+      <div class="admin">
+      <router-link to="/admin">
+        <el-button link type="primary">
+          管理
         </el-button>
       </router-link>
     </div>
@@ -38,7 +45,7 @@
 
 <script>
 
-import {getUserCenterApiLink, getUserCenterFrontLink} from "@/common/url";
+import {getForumApiLink, getUserCenterApiLink, getUserCenterFrontLink} from "@/common/url";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -51,6 +58,7 @@ export default {
       analysis:{},
       searchInput:'',
       isLogin:false,
+      isAdmin:false,
       username:'',
       userData:{
         "username": "",
@@ -69,7 +77,7 @@ export default {
       const url_api=getUserCenterApiLink()+'user/info/'
       axios.post(url_api,{
         "keyword": this.username,
-        "type": "base"
+        "type": "all"
       })
           .then((res)=>{
             if (res.data.status<3000){
@@ -100,7 +108,20 @@ export default {
     logOut(){
       Cookies.remove('user_token')
       Cookies.remove('user_name')
+      localStorage.removeItem('user_group')
       location.reload()
+    },
+    getUserGroup(){
+      const url_api=getForumApiLink()+"user/info/?username="+this.username
+      axios.get(url_api)
+          .then((res)=>{
+            if (res.data.status<3000){
+              localStorage.setItem('user_group',res.data.data.group)
+              if (res.data.data.group==='Admin'){
+                this.isAdmin=true
+              }
+            }
+          })
     }
   },
   beforeMount() {
@@ -108,6 +129,7 @@ export default {
     this.isLogin = !( this.username=== null || this.username === undefined);
     if (this.isLogin){
       this.getUserIcon()
+      this.getUserGroup()
     }
     //统计权限申请
     let analysisRight=localStorage.getItem('isAnalysisOpen')
@@ -147,6 +169,9 @@ export default {
 </script>
 
 <style>
+div{
+  font-family: "Microsoft YaHei",sans-serif;
+}
 @media  screen and (min-width: 765px){
   .header>.logo>img{
     height: 58px;
@@ -224,5 +249,9 @@ export default {
 }
 a{
   text-decoration: none;
+}
+.links{
+  display: flex;
+  flex-direction: row;
 }
 </style>

@@ -10,7 +10,13 @@
 import ForumPostsList from "@/components/forumPostsList";
 export default {
   name: "forumIndex",
-  components: {ForumPostsList}
+  components: {ForumPostsList},
+  beforeCreate() {
+    document.title="渲染中-AcgnForum"
+  },
+  mounted() {
+    document.title="首页-AcgnForum"
+  }
 }
 </script>
 

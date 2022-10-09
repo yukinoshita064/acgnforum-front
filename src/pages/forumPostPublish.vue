@@ -78,6 +78,7 @@ export default {
     }
     // 模拟 ajax 异步获取内容
     onMounted(() => {
+      document.title="发帖-acgnForum"
       getPartitions()
       const token = Cookies.get('user_token')
       if (token === null || token === undefined) {

@@ -63,7 +63,7 @@
                 <el-button link type="primary" @click.prevent="replyToSomeBody(item)">
                   回复
                 </el-button>
-                <el-button link type="primary">
+                <el-button link type="primary" @click="postReplyReport(item.id)">
                   举报
                 </el-button>
               </div>
@@ -95,7 +95,7 @@
                   <el-button link type="primary" @click.prevent="replyToSomeBody(item_son)">
                     回复
                   </el-button>
-                  <el-button link type="primary">
+                  <el-button link type="primary" @click.prevent="postReplyReport(item_son.id)">
                     举报
                   </el-button>
                 </div>
@@ -147,7 +147,8 @@ export default {
       reply_text:"",
       reply_show:"说点什么吧",
       isPageLoadng:false,
-      isReplyLoading:false
+      isReplyLoading:false,
+      isLogin:false
     }
   },
   methods:{
@@ -158,6 +159,7 @@ export default {
           .then((res)=>{
             if (res.data.status<3000){
               this.postData=res.data.data
+              document.title=res.data.data.title+"-acgnForum帖子查看"
               this.postData.context=res.data.data.context.replace(
                   /<img/g,
                   "<img style='width:100%;height:auto;'"
@@ -194,6 +196,13 @@ export default {
       return getUserCenterFrontLink()+"space/"+username
     },
     postReplyData(){
+      if (!this.isLogin){
+        ElMessage({
+          message:"请先登录",
+          type:"warning"
+        })
+        return
+      }
       const url_api=getForumApiLink()+'api/reply/'
       axios.post(url_api,{
         "user_token": Cookies.get('user_token'),
@@ -293,13 +302,44 @@ export default {
         }
       })
     },
+    postReplyReport(id){
+      if (!this.isLogin){
+        ElMessage({
+          message:"请先登录",
+          type:"warning"
+        })
+        return
+      }
+      const url_api=getForumApiLink()+"api/report/?user_token="+Cookies.get('user_token')
+      axios.post(url_api,{
+        "replyId": id
+      })
+          .then((res)=>{
+            if (res.data.status<3000){
+              ElMessage({
+                message:"举报成功",
+                type:'success'
+              })
+            }
+            else {
+              ElMessage({
+                message:"操作失败",
+                type:'warning'
+              })
+            }
+          })
+    }
   },
   computed:{
 
   },
   beforeMount() {
+    document.title="加载中-acgnForum"
     this.getPostPageData()
     this.getReplyList()
+    if (Cookies.get('user_token')!==undefined){
+      this.isLogin=true
+    }
   }
 }
 </script>
@@ -368,8 +408,8 @@ a:hover{
   border-bottom: #f6f6f6 1px solid;
 }
 .reply-item:hover{
-  border-left: #f6f6f6 1px solid;
-  border-right: #f6f6f6 1px solid;
+  background-color: #f6f6f6;
+  border-radius: 6px;
 }
 .reply-item>a>.publisher>img{
   width: 40px;
