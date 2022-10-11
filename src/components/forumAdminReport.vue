@@ -97,7 +97,10 @@ export default {
   },
   beforeMount() {
     this.getReportList()
-  }
+  },
+  beforeCreate() {
+    document.title="加载中-AcgnForum"
+  },
 }
 </script>
 

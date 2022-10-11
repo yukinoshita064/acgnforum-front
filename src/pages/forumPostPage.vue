@@ -340,7 +340,10 @@ export default {
     if (Cookies.get('user_token')!==undefined){
       this.isLogin=true
     }
-  }
+  },
+  beforeCreate() {
+    document.title="加载中-AcgnForum"
+  },
 }
 </script>
 

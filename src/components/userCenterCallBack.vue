@@ -59,7 +59,10 @@ export default {
     console.log(this.swapToken)
     console.log(this.username)
     console.log(this.fromPath)
-  }
+  },
+  beforeCreate() {
+    document.title="加载中-AcgnForum"
+  },
 }
 </script>
 

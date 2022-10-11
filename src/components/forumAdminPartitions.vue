@@ -159,7 +159,10 @@ export default {
     }
     this.getAdminInfo()
     this.getPartitionsAll()
-  }
+  },
+  beforeCreate() {
+    document.title="加载中-AcgnForum"
+  },
 }
 </script>
 

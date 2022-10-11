@@ -30,7 +30,9 @@ export default {
   beforeMount() {
     document.title="管理入口-acgnForum"
   },
-
+  beforeCreate() {
+    document.title="加载中-AcgnForum"
+  },
 }
 </script>
 

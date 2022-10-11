@@ -11,7 +11,7 @@
         </el-button>
       </router-link>
     </div>
-      <div class="admin">
+      <div class="admin" v-if="isAdmin">
       <router-link to="/admin">
         <el-button link type="primary">
           管理

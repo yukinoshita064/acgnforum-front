@@ -137,7 +137,10 @@ export default {
     this.searchResMap=new Map();
     this.dataMap=new Map();
     this.getForumPostsList()
-  }
+  },
+  beforeCreate() {
+    document.title="加载中-AcgnForum"
+  },
 }
 </script>
 
