@@ -38,8 +38,13 @@
   <div class="page">
     <router-view :key="$route.path"></router-view>
   </div>
-  <div>
-    <el-button @click="logOut" type="none" v-if="isLogin">注销</el-button>
+  <div class="footer">
+    <div class="userAction">
+      <el-button @click="logOut" type="none" v-if="isLogin">注销</el-button>
+    </div>
+    <div class="web-info">
+      <a :href="item.link" target="_blank" v-for="item in webInfoList" :key="item.title" class="TB_padding">{{item.title}}</a>
+    </div>
   </div>
 </template>
 
@@ -64,7 +69,17 @@ export default {
         "username": "",
         "nickname": "",
         "icon": ""
-      }
+      },
+      webInfoList:[{
+        title:"用户中心",
+        link:"https://user.acgnworld.xyz"
+      },{
+        title:"论坛",
+        link:"https://forum.acgnworld.xyz"
+      },{
+        title:"游戏",
+        link:"https://game.acgnworld.xyz"
+      }]
     }
   },
   methods:{
@@ -166,6 +181,7 @@ export default {
     },
   },
 }
+
 </script>
 
 <style>
@@ -181,6 +197,10 @@ div{
     width: 80%;
     margin: 0 auto;
   }
+  .footer{
+    width: 80%;
+    margin: 0 auto;
+  }
 }
 @media  screen and (max-width: 765px){
   .header>.logo>img{
@@ -188,6 +208,10 @@ div{
     width: 150px;
   }
   .page{
+    width: 95%;
+    margin: 0 auto;
+  }
+  .footer{
     width: 95%;
     margin: 0 auto;
   }
@@ -253,5 +277,24 @@ a{
 .links{
   display: flex;
   flex-direction: row;
+}
+.footer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  text-align: center;
+}
+.footer>.userAction{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.footer>.web-info{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.TB_padding{
+  padding: 5px 0;
 }
 </style>

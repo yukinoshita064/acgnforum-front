@@ -12,6 +12,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.headers.get['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.headers.common['VIEWKEY']=localStorage.getItem('viewer')===undefined?'0':localStorage.getItem('viewer')
 axios.defaults.transformRequest = [function (data) {
     let src = ''
     for (let item in data) {
